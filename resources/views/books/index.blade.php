@@ -8,7 +8,16 @@
 </head>
 <body class="bg-gray-100 p-8">
     <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h1 class="text-2xl font-bold mb-6 text-gray-800">My Reading List</h1>
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">My Reading List</h1>
+            <a href="{{ route('books.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700">Add Book</a>
+        </div>
+
+        @if(session('success'))
+            <div class="mb-4 p-4 text-sm text-green-700 bg-green-100 rounded-lg">
+                {{ session('success') }}
+            </div>
+        @endif
 
         @if($books->isEmpty())
             <p class="text-gray-500">No books added yet.</p>
