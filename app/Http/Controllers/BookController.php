@@ -45,7 +45,19 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->delete();
-        
+
         return redirect()->route('books.index')->with('success', 'Book removed successfully!');
+    }
+
+    public function index(Request $request)
+    {
+        $query = Book::latest();
+
+        if ($request->has('status') && in_array($request->status, ['to-read', 'reading', 'finished'])) {
+            $query->where('status', $request->status);
+        }
+
+        $books = $query->get();
+        return view('books.index', compact('books'));
     }
 }

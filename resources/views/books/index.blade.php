@@ -19,8 +19,16 @@
             </div>
         @endif
 
+        <!-- Status Filter Tabs -->
+        <div class="flex space-x-2 mb-6 border-b pb-2 text-sm">
+            <a href="{{ route('books.index') }}" class="px-3 py-1 rounded-md {{ !request('status') ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-200' }}">All</a>
+            <a href="{{ route('books.index', ['status' => 'to-read']) }}" class="px-3 py-1 rounded-md {{ request('status') === 'to-read' ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-200' }}">To Read</a>
+            <a href="{{ route('books.index', ['status' => 'reading']) }}" class="px-3 py-1 rounded-md {{ request('status') === 'reading' ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-200' }}">Reading</a>
+            <a href="{{ route('books.index', ['status' => 'finished']) }}" class="px-3 py-1 rounded-md {{ request('status') === 'finished' ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-200' }}">Finished</a>
+        </div>
+
         @if($books->isEmpty())
-            <p class="text-gray-500">No books added yet.</p>
+            <p class="text-gray-500">No books found in this view.</p>
         @else
             <ul class="divide-y divide-gray-200">
                 @foreach($books as $book)
