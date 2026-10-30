@@ -7,9 +7,15 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::latest()->get();
+        $query = Book::latest();
+
+        if ($request->has('status') && in_array($request->status, ['to-read', 'reading', 'finished'])) {
+            $query->where('status', $request->status);
+        }
+
+        $books = $query->get();
         return view('books.index', compact('books'));
     }
 
@@ -34,7 +40,7 @@ class BookController extends Controller
     public function update(Request $request, Book $book)
     {
         $validated = $request->validate([
-        'status' => 'required|in:to-read,reading,finished',
+            'status' => 'required|in:to-read,reading,finished',
         ]);
 
         $book->update($validated);
@@ -47,17 +53,5 @@ class BookController extends Controller
         $book->delete();
 
         return redirect()->route('books.index')->with('success', 'Book removed successfully!');
-    }
-
-    public function index(Request $request)
-    {
-        $query = Book::latest();
-
-        if ($request->has('status') && in_array($request->status, ['to-read', 'reading', 'finished'])) {
-            $query->where('status', $request->status);
-        }
-
-        $books = $query->get();
-        return view('books.index', compact('books'));
     }
 }
