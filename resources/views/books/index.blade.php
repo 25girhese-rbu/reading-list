@@ -29,7 +29,7 @@
                             <h2 class="font-semibold text-lg text-gray-900">{{ $book->title }}</h2>
                             <p class="text-sm text-gray-600">by {{ $book->author }}</p>
                         </div>
-                        <div class="flex items-center space-x-2">
+                        <div class="flex items-center space-x-3">
                             <form action="{{ route('books.update', $book) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
@@ -38,6 +38,12 @@
                                     <option value="reading" {{ $book->status === 'reading' ? 'selected' : '' }}>Reading</option>
                                     <option value="finished" {{ $book->status === 'finished' ? 'selected' : '' }}>Finished</option>
                                 </select>
+                            </form>
+
+                            <form action="{{ route('books.destroy', $book) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this book?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-xs bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Delete</button>
                             </form>
                         </div>
                     </li>
