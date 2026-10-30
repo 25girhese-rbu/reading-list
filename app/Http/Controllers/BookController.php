@@ -30,4 +30,14 @@ class BookController extends Controller
 
         return redirect()->route('books.index')->with('success', 'Book added successfully!');
     }
+    public function update(Request $request, Book $book)
+    {
+        $validated = $request->validate([
+        'status' => 'required|in:to-read,reading,finished',
+        ]);
+
+        $book->update($validated);
+
+        return redirect()->route('books.index')->with('success', 'Book status updated successfully!');
+    }
 }

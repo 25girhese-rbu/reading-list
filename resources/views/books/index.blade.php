@@ -29,10 +29,17 @@
                             <h2 class="font-semibold text-lg text-gray-900">{{ $book->title }}</h2>
                             <p class="text-sm text-gray-600">by {{ $book->author }}</p>
                         </div>
-                        <span class="px-3 py-1 text-xs rounded-full 
-                            {{ $book->status === 'finished' ? 'bg-green-100 text-green-800' : ($book->status === 'reading' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800') }}">
-                            {{ ucfirst($book->status) }}
-                        </span>
+                        <div class="flex items-center space-x-2">
+                            <form action="{{ route('books.update', $book) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <select name="status" onchange="this.form.submit()" class="text-xs rounded-md border-gray-300 shadow-sm border p-1 bg-white">
+                                    <option value="to-read" {{ $book->status === 'to-read' ? 'selected' : '' }}>To Read</option>
+                                    <option value="reading" {{ $book->status === 'reading' ? 'selected' : '' }}>Reading</option>
+                                    <option value="finished" {{ $book->status === 'finished' ? 'selected' : '' }}>Finished</option>
+                                </select>
+                            </form>
+                        </div>
                     </li>
                 @endforeach
             </ul>
